@@ -1,0 +1,125 @@
+make an assembly program that determine the LCD or GCF of two-digit numbers, an error message should be displayed if necessary, it should have input validation and the program loops until the user chooses 0 to Exit. Implement pass by reference using nasm/windows and it should be compatible to 32-bit system
+
+Here is a sample run:
+
+
+
+Hi! This is YourName and I am here to help you determine the LCD and GCF for two-digit numbers (1 to 99).
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 1
+
+==== LCD ====
+
+Enter the first number: 75
+
+Enter the second number: 50
+
+LCD: 350
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 2
+
+==== GCF ====
+
+Enter the first number: 20
+
+Enter the second number: -44
+
+Input should only be between 1 to 99. Please enter again a valid input.
+
+Enter the second number: 44
+
+GCF: 4
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 2
+
+==== GCF ====
+
+Enter the first number: 5
+
+Enter the second number: 6
+
+GCF: 1
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 1
+
+==== LCD ====
+
+Enter the first number: 11
+
+Enter the second number: 4
+
+LCD: 44
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 1
+
+==== LCD ====
+
+Enter the first number: 20
+
+Enter the second number: 80
+
+LCD: 80
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 3
+
+Entered Choice is not on the menu. Please enter a valid choice.
+
+==== LCD and GCF CALCULATOR by Group 12 ====
+
+[0] Exit
+
+[1] LCD
+
+[2] GCF
+
+Enter choice: 0
+
+Thank you!

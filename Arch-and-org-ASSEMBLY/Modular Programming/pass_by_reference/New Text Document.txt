@@ -1,0 +1,287 @@
+section .data
+    prompt_welcome db 'Hi! We are the group 12 here to help you determine the LCD and GCF for two-digit numbers (1 to 99).',10,0
+    prompt_display db '==== LCD and GCF CALCULATOR by Group12 ====',10, 0
+    prompt_exit db  '[0] Exit',10, 0
+    prompt_lcd db   '[1] LCD',10, 0
+    prompt_gcf db   '[2] GCF',10, 0
+    selectChoice db 'Enter Choice:', 0
+    inputformat_selectChoice db '%d', 0
+
+    prompt_first_num db 'Enter the first number:', 0
+    prompt_second_num db 'Enter the second number:', 0
+    inputformat_numbers db '%d', 0
+
+    result_lcd2 db 'LCD: %d',10, 0
+    result_gcf2 db 'GCF: %d',10, 0
+    prompt_invalid_choice db 'Entered Choice is not on the menu. Please enter a valid choice.',10, 0
+    choice_num db 'Please Enter a number 1 to 99 only.',10, 0
+    
+    exit db 'Thank You!', 10, 0
+
+    prompt_lcd3 db '==== LCD ====', 10, 0
+    prompt_gcf3 db '==== GCF ====', 10, 0
+
+section .bss
+   menu_choice resb 100
+   first_num resd 1
+   second_num resd 1
+   result resd 1  ; To store the result
+
+section .text
+global _calculate_gcf  ; Function to calculate GCF (pass-by-reference)
+global _calculate_lcd  ; Function to calculate LCD (pass-by-reference)
+global _main
+extern _printf
+extern _scanf
+extern _exit
+
+_gcd:
+    ; Using the Euclidean algorithm, we now Calculate the GCD 
+    push ebp
+    mov ebp, esp
+    mov eax, [eax]  ; First number
+    mov ebx, [ebx]  ; Second number
+    gcd_loop:
+        cmp ebx, 0
+        je gcd_done
+        xor edx, edx
+        div ebx
+        mov eax, ebx
+        mov ebx, edx
+        jmp gcd_loop
+    gcd_done:
+    mov [ecx], eax  ; Store the result at the address in ecx
+    pop ebp
+    ret
+
+_calculate_lcd:
+    mov eax, [eax]
+    mov ebx, [ebx] 
+    push eax  ; Push the first number
+    push ebx  ; Push the second number
+    call _gcd 
+    mov [ecx], eax  ; Store the result at the address in ecx
+    ret
+
+_calculate_gcf:
+    mov eax, [eax]
+    mov ebx, [ebx]
+    call _gcd  ; Call GCD function
+    mov [ecx], eax  ; Store the result at the address in ecx
+    ret
+
+_main:
+    push prompt_welcome
+    call _printf
+    add esp, 4
+
+    push prompt_display
+    call _printf
+    add esp, 4
+
+.menu_loop:
+    push prompt_exit
+    call _printf
+    add esp, 4
+
+    push prompt_lcd
+    call _printf
+    add esp, 4
+
+    push prompt_gcf
+    call _printf
+    add esp, 4
+
+    ; Display menu and get user choice
+    push selectChoice
+    call _printf
+    add esp, 4
+
+    ; Read menu choice
+    push menu_choice
+    push inputformat_selectChoice
+    call _scanf
+    add esp, 8
+
+    ; Check the menu choice
+    mov eax, [menu_choice]
+    cmp eax, 1 ; LCD
+    je  .lcd_calculation
+    cmp eax, 2 ; GCF
+    je  .gcf_calculation
+    cmp eax, 0 ; Exit
+    je .exit
+
+    push prompt_invalid_choice
+    call _printf
+    add esp, 4
+
+    ; Invalid choice, loop again
+    jmp .menu_loop
+
+.exit:
+    push  exit
+    call _printf
+    call _exit
+
+.lcd_calculation:
+    push prompt_lcd3
+    call _printf
+    add esp, 4
+
+    ; Read the first number
+    push prompt_first_num
+    call _printf
+    add esp, 4
+
+    ; Read and validate the first number
+    .read_first:
+    push first_num
+    push inputformat_numbers
+    call _scanf
+    add esp, 8
+
+    ; Check if the first number is in the valid range (1 to 99)
+    mov eax, [first_num]
+    cmp eax, 1
+    jl .invalid_number
+    cmp eax, 99
+    jg .invalid_number
+
+    ; Read the second number
+    push prompt_second_num
+    call _printf
+    add esp, 4
+
+    ; Read and validate the second number
+    .read_second:
+    push second_num
+    push inputformat_numbers
+    call _scanf
+    add esp, 8
+
+    ; Check if the second number is in the valid range (1 to 99)
+    mov ebx, [second_num]
+    cmp ebx, 1
+    jl .invalid_number
+    cmp ebx, 99
+    jg .invalid_number   
+
+    ; Calculate LCD using the function
+    mov eax, [first_num]
+    mov ebx, [second_num]
+    mov ecx, result  ; Pass the memory address of result as the third argument
+    call _calculate_lcd
+
+    .invalid_number:
+    push choice_num
+    call _printf
+    add esp, 4
+    jmp .menu_loop
+
+.gcf_calculation:
+    push prompt_gcf3
+    call _printf
+    add esp, 4
+
+    ; Read the first number
+    push prompt_first_num
+    call _printf
+    add esp, 4
+
+    ; Read and validate the first number
+    .read_first_gcf:
+    push first_num
+    push inputformat_numbers
+    call _scanf
+    add esp, 8
+
+    ; Check if the first number is in the valid range (1 to 99)
+    mov eax, [first_num]
+    cmp eax, 1
+    jl .invalid_number_gcf
+    cmp eax, 99
+    jg .invalid_number_gcf
+
+    ; Read the second number
+    push prompt_second_num
+    call _printf
+    add esp, 4
+
+    ; Read and validate the second number
+    .read_second_gcf:
+    push second_num
+    push inputformat_numbers
+    call _scanf
+    add esp, 8
+
+    ; Check if the second number is in the valid range (1 to 99)
+    mov ebx, [second_num]
+    cmp ebx, 1
+    jl .feature
+    cmp ebx, 99
+    jg .feature
+
+    ; Check if both numbers are positive
+    cmp eax, 0
+    jle .invalid_number_gcf
+    cmp ebx, 0
+    jle .invalid_number_gcf
+
+    ; Perform GCF calculation with the valid numbers
+    mov eax, [first_num]
+    mov ebx, [second_num]
+    mov ecx, result  ; Pass the memory address of result as the third argument
+    call _calculate_gcf
+
+    ; Display the result
+    mov eax, [result]
+    push eax
+    push result_gcf2
+    call _printf
+    add esp, 8
+    jmp .menu_loop
+
+    .invalid_number_gcf:
+    push choice_num
+    call _printf
+    add esp, 4
+    jmp .menu_loop
+
+.feature:
+    push choice_num
+    call _printf
+    add esp, 4
+
+    ; Read a valid divisor
+    push prompt_second_num
+    call _printf
+    add esp, 4
+
+    push second_num  ; Store the new divisor
+    push inputformat_numbers
+    call _scanf
+    add esp, 8
+
+    ; Check for division by zero again
+    mov eax, [second_num]
+    cmp eax, 1
+    jl .feature
+    cmp ebx, 99
+    jg .feature
+
+    ; Perform GCF calculation with the valid numbers
+    mov eax, [first_num]
+    mov ebx, [second_num]
+    mov ecx, result  ; Pass the memory address of result as the third argument
+    call _calculate_gcf
+
+    ; Display the result
+    mov eax, [result]
+    push eax
+    push result_gcf2
+    call _printf
+    add esp, 8
+    jmp .menu_loop
+.done:
+    ret

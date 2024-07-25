@@ -1,0 +1,47 @@
+nasm –f win32 <file>.asm
+gcc -o <file> <file>.obj
+<file>
+----------------------------------------------------------
+
+nasm -f win32 -o array.obj array.asm
+gcc -m32 -o array.exe array.obj
+array.exe
+
+----------------------------------------------------------
+
+nasm -f win32 -o reference.obj  reference.asm
+gcc -m32 -o  reference.exe  reference.obj
+reference.exe
+
+
+----------------------------------------------------------
+
+nasm -f win32 -o calculator.obj calculator.asm
+gcc -m32 -o calculator.exe calculator.obj
+calculator.exe
+
+----------------------------------------------------------
+nasm -f win32 -o finals.obj finals.asm
+gcc -m32 -o finals.exe finals.obj
+finals.exe
+----------------------------------------------------------
+
+nasm -f win32 -o array.obj array.asm
+gcc -m32 -o array.exe array.obj
+array.exe
+
+----------------------------------------------------------
+; assembly format
+
+section .data
+
+section .bss
+
+section .text
+
+_main:
+
+.menu_loop:
+
+-----------------------------------------------------------
+34 - 
