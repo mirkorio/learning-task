@@ -1,0 +1,19 @@
+#Create class Person
+class Person:
+    i = 0
+#create function to Loop name and birthdate
+    def __init__(self):
+        self.name = input("Enter Your Name: ")
+        self.birthdate = input("Enter Your Birthdate: ")
+        Person.i +=1
+#create function to display the name and birthdate
+    def displayPerson(self):
+        print(self.name, "was born on", self.birthdate)
+
+p1 = Person()
+p2 = Person()
+p3 = Person()
+#Display all the name and birthdate
+p1.displayPerson()
+p2.displayPerson()
+p3.displayPerson()
